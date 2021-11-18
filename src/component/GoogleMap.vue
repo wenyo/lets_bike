@@ -1,6 +1,11 @@
 <template>
   <div id="map">
-    <GMapMap :center="center" :zoom="7" map-type-id="terrain" :options="options">
+    <GMapMap
+      :center="center"
+      :zoom="7"
+      map-type-id="terrain"
+      :options="options"
+    >
       <GMapCluster>
         <GMapMarker
           :key="index"
@@ -16,10 +21,10 @@
 </template>
 
 <script>
-import {MapStyle} from "./MapStyle.js";
+import { MapStyle } from "./MapStyle.js";
 export default {
   mounted() {
-    console.log(this.options)
+    console.log(this.options);
   },
   data() {
     return {
