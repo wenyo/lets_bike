@@ -1,10 +1,10 @@
 @font-face {
   font-family: 'icomoon';
-  src:  url('fonts/icomoon.eot?k10ic5');
-  src:  url('fonts/icomoon.eot?k10ic5#iefix') format('embedded-opentype'),
-    url('fonts/icomoon.ttf?k10ic5') format('truetype'),
-    url('fonts/icomoon.woff?k10ic5') format('woff'),
-    url('fonts/icomoon.svg?k10ic5#icomoon') format('svg');
+  src:  url('fonts/icomoon.eot?4o8n0x');
+  src:  url('fonts/icomoon.eot?4o8n0x#iefix') format('embedded-opentype'),
+    url('fonts/icomoon.ttf?4o8n0x') format('truetype'),
+    url('fonts/icomoon.woff?4o8n0x') format('woff'),
+    url('fonts/icomoon.svg?4o8n0x#icomoon') format('svg');
   font-weight: normal;
   font-style: normal;
   font-display: block;
@@ -25,6 +25,12 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
+.icon-marker_circle:before {
+  content: "\e915";
+}
+.icon-marker_bubble:before {
+  content: "\e916";
+}
 .icon-bike:before {
   content: "\e900";
 }
