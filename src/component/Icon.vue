@@ -1,8 +1,10 @@
-<template v-if="hasIcon">
-  <i :class="`icon-${icon}`"></i>h
-</template>
-<template v-else>
-  <div>error: wrong icon name</div>
+<template>
+  <template v-if="hasIcon">
+    <i :class="`icon-${icon} ${color}`"></i>
+  </template>
+  <template v-else>
+    <div>error: wrong icon name</div>
+  </template>
 </template>
 
 <script>
@@ -34,24 +36,17 @@ export default {
   props: {
     icon: {
       type: String,
-      default: icon_name[0],
+      default: icon_name[1],
     },
     color: {
       type: String,
+      default: "blue-400"
     },
   },
   data() {
     return {
       hasIcon: true,
     };
-  },
-  mounted() {
-    this.iconCheck(this.icon);
-  },
-  methods: {
-    iconCheck(icon) {
-      this.hasIcon = icon_name.find(icon);
-    },
   },
 };
 </script>
