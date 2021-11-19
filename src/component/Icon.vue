@@ -30,6 +30,8 @@ const icon_name = [
   "web",
   "zoom_in",
   "zoomout",
+  "marker_circle",
+  "marker_bubble"
 ];
 
 export default {
@@ -37,6 +39,7 @@ export default {
     icon: {
       type: String,
       default: icon_name[1],
+      validator: val => icon_name.includes(val)
     },
     color: {
       type: String,
@@ -76,6 +79,12 @@ export default {
 }
 .gray-900{
     color: $gray-900;
+}
+.yellow-300{
+    color: $yellow-300;
+}
+.yellow-500{
+    color: $yellow-500;
 }
 .yellow-900{
     color: $yellow-900;
