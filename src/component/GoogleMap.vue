@@ -3,7 +3,7 @@
     <GMapMap
       :center="center"
       :zoom="7"
-      map-type-id="terrain"
+      ref="myMapRef"
       :options="options"
     >
       <GMapCluster>
@@ -21,15 +21,51 @@
 </template>
 
 <script>
-import { MapStyle } from "./MapStyle.js";
+import {ref, watch} from 'vue'
+import MapStyle from "./MapStyle.json";
+function addMyButton(map) {
+  const controlUI = document.createElement("button");
+  controlUI.title = "Click to zoom the map";
+  const controlText = document.createElement("div");
+  controlText.innerHTML = `Center`;
+  controlUI.appendChild(controlText);
+  
+  controlUI.addEventListener("click", () => {
+    map.setZoom(map.getZoom() + 1);
+  });
+
+  map.controls[google.maps.ControlPosition.RIGHT_BOTTOM].push(controlUI); // eslint-disable-line no-undef
+}
+
 export default {
-  mounted() {
-    console.log(this.options);
+  setup() {
+    const myMapRef = ref();
+
+    watch(myMapRef, googleMap => {
+      if (googleMap) {
+        googleMap.$mapPromise.then(map=> {
+          addMyButton(map);
+        })
+      }
+    });
+    
+    return {
+      myMapRef
+    }
   },
   data() {
     return {
       options: {
-        styles: MapStyle,
+        zoomControl: true,
+        mapTypeControl: false,
+        scaleControl: false,
+        streetViewControl: false,
+        rotateControl: true,
+        rotateControlOptions: {
+          position: 6,
+        },
+        fullscreenControl: false,
+        styles: MapStyle.map_style,
       },
       center: { lat: 51.093048, lng: 6.84212 },
       markers: [
