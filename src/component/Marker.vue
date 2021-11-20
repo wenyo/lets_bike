@@ -1,77 +1,142 @@
 <template>
-  <div class="marker">
-    <img v-if="type === type_mode[0]" src="@/assets/img/station.svg" alt="" />
-
-    <template v-else>
-      <Icon :icon="`marker_${type}`" :color="'yellow-900'" />
-      <slot v-if="content === content_mode[2]" />
-      <Icon v-else :icon="content" :color="contentColor" />
-    </template>
+  <img
+    v-if="type === type_mode[0]"
+    src="@/assets/img/station.svg"
+    alt="search"
+  />
+  <div :class="type" v-if="type === type_mode[1]">
+    <MarkerItem
+      type="bubble"
+      :content="type_info.able1.content"
+      :color="type_info.able1.color"
+      :content-color="type_info.able1.contentColor"
+      :size="type_info.able1.size"
+    >
+      <div :class="marker_info.contentColor">
+        <slot />
+      </div>
+    </MarkerItem>
+    <MarkerItem
+      type="bubble"
+      :content="type_info.able2.content"
+      :color="type_info.able2.color"
+      :content-color="type_info.able2.contentColor"
+      :size="type_info.able2.size"
+    >
+      <div :class="marker_info.contentColor">
+        <slot />
+      </div>
+    </MarkerItem>
   </div>
+  <MarkerItem
+    v-else
+    type="bubble"
+    :content="marker_info.content"
+    :color="marker_info.color"
+    :content-color="marker_info.contentColor"
+    :size="marker_info.size"
+  >
+    <div :class="marker_info.contentColor">
+      <slot v-if="marker_info.content === 'text'" />
+    </div>
+  </MarkerItem>
 </template>
 
 <script>
-import Icon from "./Icon.vue";
+import MarkerItem from "./MarkerItem.vue";
 
-const type_mode = ["red", "circle", "bubble", ];
-const content_mode = ["attraction", "station", "text"];
+const type_info = {
+  search: {
+    content: "",
+    color: "",
+    contentColor: "",
+    size: "M",
+  },
+  able_all: {
+    content: "text",
+    color: "blue-800",
+    contentColor: "blue-100",
+    size: "M",
+  },
+  unable: {
+    content: "text",
+    color: "gray-100",
+    contentColor: "gray-700",
+    size: "M",
+  },
+  unable_active: {
+    content: "text",
+    color: "gray-400",
+    contentColor: "gray-700",
+    size: "L",
+  },
+  closed: {
+    content: "closed",
+    color: "blue-200",
+    contentColor: "blue-600",
+    size: "M",
+  },
+  closed_active: {
+    content: "closed",
+    color: "blue-200",
+    contentColor: "blue-800",
+    size: "L",
+  },
+  able1: {
+    content: "text",
+    color: "primary-color-master",
+    contentColor: "blue-100",
+    size: "M",
+  },
+  able1_active: {
+    content: "text",
+    color: "yellow-800",
+    contentColor: "blue-100",
+    size: "L",
+  },
+  able2: {
+    content: "text",
+    color: "blue-700",
+    contentColor: "blue-100",
+    size: "M",
+  },
+  able2_active: {
+    content: "text",
+    color: "blue-800",
+    contentColor: "blue-100",
+    size: "L",
+  },
+};
+const type_mode = Object.keys(type_info);
 
 export default {
+  components: { MarkerItem },
   props: {
     type: {
       type: String,
-      default: type_mode[0],
-      validator: (val) => type_mode.includes(val),
-    },
-    content: {
-      type: String,
-      default: content_mode[0],
-      validator: (val) => content_mode.includes(val),
-    },
-    color: {
-      type: String,
-    },
-    contentColor: {
-      type: String,
+      default: type_mode[1],
     },
   },
   data() {
     return {
-      content_mode,
+      type_info,
       type_mode,
+      marker_info: type_info[this.type],
     };
-  },
-  components: {
-    Icon,
   },
 };
 </script>
 
 <style lang="scss" scoped>
-.marker {
+.able_all {
   width: fit-content;
   position: relative;
 
-  img {
-    width: 35px;
-  }
-  
-  & i:first-child {
-    font-size: 40px;
-  }
-
-  & i:last-child {
+  & :last-child.marker {
     position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    font-size: 16px;
-    padding-bottom: 10%;
-  }
-
-  & i:last-child {
-    font-size: 14px;
-    padding-bottom: 20%;
+    z-index: -1;
+    top: 0;
+    right: -8px;
   }
 }
 </style>
