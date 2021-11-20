@@ -88,8 +88,11 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+#map{
+  flex: 1;
+}
 .vue-map-container {
-  width: 100vw;
+  width: 100%;
   height: 100vh;
 }
 </style>
