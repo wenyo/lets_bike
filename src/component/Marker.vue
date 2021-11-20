@@ -35,6 +35,8 @@
     :color="marker_info.color"
     :content-color="marker_info.contentColor"
     :size="marker_info.size"
+    hasClick="true"
+    @click="clickFun"
   >
     <div :class="marker_info.contentColor">
       <slot v-if="marker_info.content === 'text'" />
@@ -114,7 +116,11 @@ export default {
   props: {
     type: {
       type: String,
-      default: type_mode[1],
+      default: type_mode[3],
+    },
+    clickFun: {
+      type: Function,
+      default: () => {},
     },
   },
   data() {

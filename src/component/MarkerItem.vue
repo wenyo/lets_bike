@@ -1,5 +1,5 @@
 <template>
-  <div :class="`marker size-${size}`">
+  <div :class="className()" @click="clickFun">
     <Icon :icon="`marker_${type}`" :color="color" />
     <slot v-if="content === content_mode[2]" />
     <Icon v-else :icon="content" :color="contentColor" />
@@ -36,6 +36,10 @@ export default {
       default: sizes[0],
       validator: (val) => sizes.includes(val),
     },
+    hasClick: {
+      type: Boolean,
+      default: false,
+    },
   },
   data() {
     return {
@@ -45,6 +49,13 @@ export default {
   },
   components: {
     Icon,
+  },
+  methods: {
+    className() {
+      let classAry = ["marker", `size-${this.size}`];
+      if (this.hasClick) classAry.push("pointer");
+      return classAry.join(" ");
+    },
   },
 };
 </script>
@@ -84,9 +95,9 @@ export default {
   }
 
   &.size-L {
-      & i:first-child {
-    font-size: 46px;
-  }
+    & i:first-child {
+      font-size: 46px;
+    }
     & :last-child {
       font-size: 20px;
     }
