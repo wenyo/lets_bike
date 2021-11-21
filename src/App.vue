@@ -1,17 +1,25 @@
 <template>
-  <Marker>
-    <span>1</span>
-  </Marker>
-  <GoogleMap />
+  <Nav />
+  <router-view></router-view>
+
 </template>
 <script>
-import GoogleMap from "./component/GoogleMap.vue";
-import Marker from "./component/Marker.vue";
+import Nav from "./component/Nav.vue";
 export default {
   components: {
-    GoogleMap,
-    Marker,
+    Nav,
   },
 };
 </script>
+<style lang="scss">
+#app {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  flex-direction: row;
+}
+.contain {
+  flex: 1;
+}
+</style>
 

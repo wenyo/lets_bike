@@ -1,27 +1,20 @@
 <template>
-  <div id="map">
-    <GMapMap
-      :center="center"
-      :zoom="7"
-      ref="myMapRef"
-      :options="options"
-    >
-      <GMapCluster>
-        <GMapMarker
-          :key="index"
-          v-for="(m, index) in markers"
-          :position="m.position"
-          :clickable="true"
-          :draggable="true"
-          @click="center = m.position"
-        />
-      </GMapCluster>
-    </GMapMap>
-  </div>
+  <GMapMap :center="center" :zoom="7" ref="myMapRef" :options="options">
+    <GMapCluster>
+      <GMapMarker
+        :key="index"
+        v-for="(m, index) in markers"
+        :position="m.position"
+        :clickable="true"
+        :draggable="true"
+        @click="center = m.position"
+      />
+    </GMapCluster>
+  </GMapMap>
 </template>
 
 <script>
-import {ref, watch} from 'vue'
+import { ref, watch } from "vue";
 import MapStyle from "./MapStyle.json";
 function addMyButton(map) {
   const controlUI = document.createElement("button");
@@ -29,7 +22,7 @@ function addMyButton(map) {
   const controlText = document.createElement("div");
   controlText.innerHTML = `Center`;
   controlUI.appendChild(controlText);
-  
+
   controlUI.addEventListener("click", () => {
     map.setZoom(map.getZoom() + 1);
   });
@@ -41,17 +34,17 @@ export default {
   setup() {
     const myMapRef = ref();
 
-    watch(myMapRef, googleMap => {
+    watch(myMapRef, (googleMap) => {
       if (googleMap) {
-        googleMap.$mapPromise.then(map=> {
+        googleMap.$mapPromise.then((map) => {
           addMyButton(map);
-        })
+        });
       }
     });
-    
+
     return {
-      myMapRef
-    }
+      myMapRef,
+    };
   },
   data() {
     return {
@@ -88,11 +81,8 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-#map{
-  flex: 1;
-}
 .vue-map-container {
   width: 100%;
-  height: 100vh;
+  height: 100%;
 }
 </style>
