@@ -5,18 +5,32 @@
       <img src="@/assets/img/logo1.svg" alt="let's bike logo" />
     </h1>
     <ul>
-      <li class="active"><Icon icon="map" color="yellow-900" /></li>
-      <li><Icon icon="bike" color="yellow-900" /></li>
-      <li><Icon icon="route" color="yellow-900" /></li>
+      <template v-for="routeInfo in routes" :key="routeInfo.name">
+        <router-link
+          :to="routeInfo.path"
+          v-slot="{ isActive, navigate }"
+          custom
+        >
+          <li :class="{ active: isActive }" @click="navigate">
+            <Icon :icon="routeInfo.icon" color="yellow-900" />
+          </li>
+        </router-link>
+      </template>
     </ul>
   </nav>
 </template>
 
 <script>
 import Icon from "./Icon.vue";
+import { routes } from "../router";
 export default {
   components: {
     Icon,
+  },
+  data() {
+    return {
+      routes,
+    };
   },
 };
 </script>
@@ -43,7 +57,7 @@ nav {
 }
 ul {
   margin-top: 80px;
-  
+
   li {
     width: 100%;
     padding-bottom: 100%;
