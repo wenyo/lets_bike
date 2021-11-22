@@ -16,6 +16,7 @@
           scaledSize: { width: 20, height: 20 },
         }"
         :clickable="true"
+        label="1"
       >
           <div>11</div>
         <GMapInfoWindow
