@@ -1,5 +1,5 @@
 <template>
-  <GMapMap :center="center" :zoom="7" ref="myMapRef" :options="options">
+  <GMapMap :center="center" :zoom="15" ref="myMapRef" :options="options">
     <GMapCluster>
       <GMapMarker
         :key="index"
@@ -9,45 +9,51 @@
         :draggable="true"
         @click="center = m.position"
       />
+      <GMapMarker
+        :position="center"
+        :icon="{
+          url: PositionIcon,
+          scaledSize: { width: 20, height: 20 },
+        }"
+        :clickable="true"
+      >
+          <div>11</div>
+        <GMapInfoWindow
+          :opened="true"
+          :options="{
+            pixelOffset: {
+              width: 0,
+              height: 12,
+            },
+            maxWidth: 0,
+            maxHeight: 0,
+          }"
+        >
+          <div>00</div>
+        </GMapInfoWindow>
+      </GMapMarker>
     </GMapCluster>
   </GMapMap>
 </template>
 
 <script>
-import { ref, watch } from "vue";
+import { ref } from "vue";
+import { mapState } from "vuex";
 import MapStyle from "./MapStyle.json";
-function addMyButton(map) {
-  const controlUI = document.createElement("button");
-  controlUI.title = "Click to zoom the map";
-  const controlText = document.createElement("div");
-  controlText.innerHTML = `Center`;
-  controlUI.appendChild(controlText);
-
-  controlUI.addEventListener("click", () => {
-    map.setZoom(map.getZoom() + 1);
-  });
-
-  map.controls[google.maps.ControlPosition.RIGHT_BOTTOM].push(controlUI); // eslint-disable-line no-undef
-}
+import PositionIcon from "../assets/img/position.png";
 
 export default {
   setup() {
     const myMapRef = ref();
-
-    watch(myMapRef, (googleMap) => {
-      if (googleMap) {
-        googleMap.$mapPromise.then((map) => {
-          addMyButton(map);
-        });
-      }
-    });
-
+    const popUp = ref();
     return {
       myMapRef,
+      popUp,
     };
   },
   data() {
     return {
+      PositionIcon,
       options: {
         zoomControl: true,
         mapTypeControl: false,
@@ -60,29 +66,22 @@ export default {
         fullscreenControl: false,
         styles: MapStyle.map_style,
       },
-      center: { lat: 51.093048, lng: 6.84212 },
-      markers: [
-        {
-          position: {
-            lat: 51.093048,
-            lng: 6.84212,
-          },
-        },
-        {
-          position: {
-            lat: 52.093048,
-            lng: 6.84212,
-          },
-        }, // Along list of clusters
-      ],
+      markers: [],
     };
+  },
+  computed: {
+    ...mapState(["pos"]),
+    center() {
+      return this.pos;
+    },
   },
 };
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
 .vue-map-container {
   width: 100%;
   height: 100%;
 }
+
 </style>

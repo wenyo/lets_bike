@@ -3,7 +3,9 @@
   <router-view></router-view>
 </template>
 <script>
+import { mapMutations } from "vuex";
 import Nav from "./component/Nav.vue";
+
 export default {
   components: {
     Nav,
@@ -20,19 +22,11 @@ export default {
     this.findMe();
   },
   methods: {
+    ...mapMutations(["posGetter"]),
     findMe() {
       navigator.geolocation.getCurrentPosition(this.posGetter, (error) => {
         console.error(error);
       });
-    },
-    posGetter(pos) {
-      const crd = pos.coords;
-      console.log("crd");
-      console.log(crd);
-      this.pos = {
-        lat: crd.latitude,
-        lng: crd.longitude,
-      };
     },
   },
 };
